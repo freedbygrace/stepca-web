@@ -5,7 +5,7 @@ psycopg2
 requests
 python-jose
 protobuf
-PyJWT 
+PyJWT
 pytz
 jwcrypto
 authlib

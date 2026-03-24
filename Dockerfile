@@ -36,4 +36,4 @@ EXPOSE 5000
 
 # Entrypoint configures auth, then runs CMD
 ENTRYPOINT ["/app/docker-entrypoint.sh"]
-CMD ["python", "run.py"]
+CMD ["gunicorn", "--bind", "0.0.0.0:5000", "--workers", "2", "--threads", "4", "--access-logfile", "-", "run:app"]
