@@ -5,6 +5,11 @@ FROM python:3.12-slim
 ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1
 
+# Default auth configuration (override at runtime)
+ENV AUTH_BACKEND=local \
+    ADMIN_USER=admin \
+    ADMIN_PASSWORD=admin
+
 # Set working directory
 WORKDIR /app
 
@@ -23,8 +28,12 @@ RUN pip install --upgrade pip && pip install -r requirements.txt
 # Copy the entire project
 COPY . .
 
+# Make entrypoint executable
+RUN chmod +x /app/docker-entrypoint.sh
+
 # Expose port (Flask default)
 EXPOSE 5000
 
-# Start the Flask app
+# Entrypoint configures auth, then runs CMD
+ENTRYPOINT ["/app/docker-entrypoint.sh"]
 CMD ["python", "run.py"]
